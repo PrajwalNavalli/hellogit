@@ -1,0 +1,12 @@
+---
+- name: checking variable demo
+  vars:
+    name: qt
+  hosts: all
+  tasks:
+    - name: print variable value
+      debug:
+        var: name
+    - name: print something else
+      debug:
+        msg: "Hello, {{ name }}"

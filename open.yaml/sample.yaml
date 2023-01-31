@@ -1,0 +1,10 @@
+---
+- name: Install mongodb on ubuntu
+  host: all
+  become: yes
+  tasks:
+    - name: download packages and transfer
+     ansible.builtin.apt_key:
+       url: https://www.mongodb.org/static/pgp/server-5.0.asc
+       state: present
+       

@@ -1,0 +1,32 @@
+---
+- name: Install mongodb on ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: download packages and transfer
+      ansible.builtin.apt_key:
+        url: https://www.mongodb.org/static/pgp/server-5.0.asc
+        state: present
+    - name: add a repository
+      ansible.builtin.apt_repository:
+        repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse"
+        state: present
+        filename: /etc/apt/sources.list.d/mongodb-org-5.0.list
+    - name: install mongodb
+      ansible.builtin.apt:
+        name: mongodb-org
+        update_cache: yes
+        state: present
+    - name: start mongodb
+      ansible.builtin.systemd:
+        name: mongod
+        daemon_reload: yes
+        state: started
+      notify:
+        - enable and restart mongod
+  handlers:
+    - name: enable and restart mongod
+      ansible.builtin.systemd:
+        name: mongod
+        enabled: yes
+        state: restarted
