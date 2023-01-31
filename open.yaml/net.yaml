@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   vars:
-    dotnet_package_name1: dotnet-sdk-6.0
+    dotnet_package_name1: dotnet-sdk-7.0
   tasks:
     - name: download dotnet core
       ansible.builtin.get_url:
