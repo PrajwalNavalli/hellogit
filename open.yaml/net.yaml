@@ -4,7 +4,6 @@
   become: yes
   vars:
     dotnet_package_name1: dotnet-sdk-6.0
-    dotnet_package_name2: dotnet-sdk-7.0
   tasks:
     - name: download dotnet core
       ansible.builtin.get_url:
@@ -17,13 +16,8 @@
         name: apt-transport-https
         update_cache: yes
         state: present
-    - name: install dotnet core -6
+    - name: install dotnet core
       ansible.builtin.apt:
         name: "{{ dotnet_package_name1 }}"
-        update_cache: yes
-        state: present
-    - name: install dotnet core -7
-      ansible.builtin.apt:
-        name: "{{ dotnet_package_name2 }}"
         update_cache: yes
         state: present
