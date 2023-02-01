@@ -3,7 +3,8 @@
   hosts: all
   become: yes
   tasks:
-    - name: download packages and transfer
-      ansible.builtin.apt_key:
-        url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh
+    - name: install nodejs
+      ansible.builtin.apt:
+        name: nodejs
+        update_cache: yes
         state: present
