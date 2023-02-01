@@ -1,6 +1,6 @@
 - hosts: all
   vars:
-    node_version: "0.10.28"
+    node_version: "v10.19.0"
   tasks:
   - name: Check for node.js
     shell: test "$(node -v 2> /dev/null)" = v{{node_version}}
