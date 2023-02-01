@@ -2,9 +2,11 @@
 - name: install nodejs on ubuntu 
   hosts: all
   become: yes
+    vars:
+    node_version: "0.10.28"
   tasks:
-    - name: install nodejs
+    - name: install nodejs 
       ansible.builtin.apt
-         name: install nodejs
+         name: install nodejs 
          upsate_cache: yes
          state: present
