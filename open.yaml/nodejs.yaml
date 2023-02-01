@@ -5,5 +5,5 @@
   tasks:
     - name: download packages and transfer
       ansible.builtin.apt_key:
-        url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+        url: https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh
         state: present
