@@ -1,5 +1,5 @@
 ---
-- name: install nodejs on ubuntu
+- name: install nodejs on ubuntu 
   hosts: all
   become: yes
   tasks:

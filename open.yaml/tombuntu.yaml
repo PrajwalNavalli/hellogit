@@ -76,7 +76,7 @@
         state: started
     - name: copy the users xml
       ansible.builtin.copy:
-        src: tomcat-users.xml
+        src: users.xml
         dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
