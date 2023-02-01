@@ -1,0 +1,35 @@
+- hosts: all
+  vars:
+    node_version: "0.10.28"
+  tasks:
+  - name: Check for node.js
+    shell: test "$(node -v 2> /dev/null)" = v{{node_version}}
+    register: nodejs_installed
+    ignore_errors: True
+    tags:
+      - nodejs
+
+  - name: Create temp dir for compiling node.js
+    shell: mktemp -d node.XXXXXXX
+    register: node_tmp_dir
+    when: nodejs_installed|failed
+    tags:
+      - nodejs
+
+  - name: Download node.js source
+    shell: curl http://nodejs.org/dist/v{{node_version}}/node-v{{node_version}}.tar.gz | tar xz --strip-components=1 chdir={{ node_tmp_dir.stdout }}
+    when: nodejs_installed|failed
+    tags:
+      - nodejs
+
+  - name: Configure, build and install node.js
+    shell: ./configure && make && make install chdir={{ node_tmp_dir.stdout }}
+    when: nodejs_installed|failed
+    tags:
+      - nodejs
+
+  - name: Cleanup node.js source
+    shell: rm -rf {{ node_tmp_dir.stdout }}
+    when: nodejs_installed|failed
+    tags:
+      - nodejs
