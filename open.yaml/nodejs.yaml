@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   tasks:
-    - name: install openjdk
+    - name: install nodejs
       ansible.builtin.apt
          name: install nodejs
          upsate_cache: yes
