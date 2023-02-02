@@ -34,10 +34,10 @@
         src: https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.8/bin/apache-tomcat-10.0.8.tar.gz
         remote_src: yes
         dest: "{{ user_home }}"
-    - name: creating a symbolic link in ubuntu
+    - name: create a symbolic link
       ansible.builtin.file:
-        src: /opt/tomcat/apache-tomcat-10.0.27
-        dest: /opt/tomcat/latest
+        src: "{{ user_name }}"/opt/tomcat/apache-tomcat-10.0.27
+        dest: "{{ group_name }}"/opt/tomcat/latest
         owner: tomcat
         group: tomcat
         state: link
