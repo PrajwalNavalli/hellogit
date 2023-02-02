@@ -41,8 +41,8 @@
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
         state: directory
-   #- name: add execute permissions to shell files
-     # ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+    - name: add execute permissions to shell files
+       ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
     - name: Create a systemd unit file in ubuntu
       ansible.builtin.copy:
         src: centos.tomcat.service
@@ -62,5 +62,3 @@
         dest: "{{ user_home }}/latest/webapps/host-manager/META-INF/context.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
-
-
