@@ -36,7 +36,7 @@
         dest: "{{ user_home }}"
     - name: create a symbolic link
       ansible.builtin.file:
-        src: "{{ user_home }}/opt/tomcat/apache-tomcat-{{ tomcat_version }}"
+        src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
         dest: "{{ user_home }}/latest"
         state: link
     - name: change permissions

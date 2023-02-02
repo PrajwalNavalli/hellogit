@@ -8,7 +8,7 @@
     group_name: tomcat
     user_home: /opt/tomcat
     user_shell: /bin/false
-    tomcat_version: "10.1.4"
+    tomcat_version: "tomcat-9.0.27"
     tomcat_major_version: "10"
     tomcat_service_name: tomcat.service
   tasks:
@@ -31,7 +31,7 @@
         state: present
     - name: extract tomcat
       ansible.builtin.unarchive:
-        src: https://downloads.apache.org/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz
+        src: https://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz
         remote_src: yes
         dest: "{{ user_home }}"
     - name: create a symbolic link
@@ -46,8 +46,20 @@
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
         state: directory
-    - name: add execute permissions to shell files
-      ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+    #- name: add execute permissions to shell files
+     # ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+    - name: find all shell files in binaries
+      ansible.builtin.find:
+        path: "/opt/tomcat/latest"
+        pattern: "*.sh"
+      register: shfiles
+    - set_fact:
+        shexecutables: "{{ shfiles.files | map(attribute='path') | list }}"
+    - name: change permission of shell files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        mode: 0751
+      with_items: "{{ shexecutables }}"
     - name: Create a systemd unit file in centos
       ansible.builtin.copy:
         src: centos.tomcat.service
