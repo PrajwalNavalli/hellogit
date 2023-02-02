@@ -1,5 +1,5 @@
 ---
-- name: Install tomcat 10 on centos
+- name: Install tomcat 10 on ubuntu
   hosts: all
   become: yes
   vars:
