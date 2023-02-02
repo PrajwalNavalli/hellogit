@@ -36,7 +36,7 @@
         dest: "{{ user_home }}"
     - name: create a symbolic link
       ansible.builtin.file:
-        src: "{{ user_name }}/apache-tomcat-10.0.27"
+        src: "{{ user_name }}/apache-tomcat-10.0.8"
         dest: "{{ group_name }}/tomcat/latest"
         owner: tomcat
         group: tomcat
