@@ -9,6 +9,7 @@
     user_home: /opt/tomcat
     user_shell: /bin/false
     tomcat_version: "tomcat-9.0.27"
+    tomcat_major_version: "10"
     tomcat_service_name: tomcat.service
   tasks:
     - name: java installation
@@ -90,20 +91,3 @@
         src: users.xml
         dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
         owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-    - name: copy the manager app context file
-      ansible.builtin.copy:
-        src: context.xml
-        dest: "{{ user_home }}/latest/webapps/manager/META-INF/context.xml"
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-    - name: copy the host manager app context file
-      ansible.builtin.copy:
-        src: hostmanager-context.xml
-        dest: "{{ user_home }}/latest/webapps/host-manager/META-INF/context.xml"
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-    - name: restart tomcat
-      ansible.builtin.systemd:
-        name: "{{ tomcat_service_name }}"
-        state: restarted
