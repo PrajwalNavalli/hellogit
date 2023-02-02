@@ -1,0 +1,36 @@
+---
+- name: Install tomcat 10 on ubuntu
+  hosts: all
+  become: yes
+  vars:
+    java_package_name: openjdk-11-jdk, openjdk-13-jdk,openjdk-17-jdk
+    user_name: tomcat
+    group_name: tomcat
+    user_home: /opt/tomcat
+    user_shell: /bin/false
+    tomcat_version: "10.1.4"
+    tomcat_major_version: "10"
+    tomcat_service_name: tomcat.service
+  tasks:
+    - name: java installation
+      ansible.builtin.apt:
+        name: "{{ java_package_name }}"
+        update_cache: yes
+        state: present
+    - name: create a tomcat group
+      ansible.builtin.group:
+        name: "{{ group_name }}"
+        state: present
+    - name: create a tomcat user
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+        create_home: yes
+        group: "{{ group_name }}"
+        home: "{{ user_home }}"
+        shell: "{{ user_shell }}"
+        state: present
+    - name: extract tomcat
+      ansible.builtin.unarchive:
+        src: https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.8/bin/apache-tomcat-10.0.8.tar.gz
+        remote_src: yes
+        dest: "{{ user_home }}"
