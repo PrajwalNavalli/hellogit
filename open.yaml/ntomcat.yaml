@@ -56,5 +56,11 @@
         dest: /etc/systemd/system/tomcat.service
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
+    - name: reload daemon and start tomcat
+      ansible.builtin.systemd:
+        name: "{{ tomcat_service_name }}"
+        daemon_reload: yes
+        enabled: yes
+        state: started
 
 
