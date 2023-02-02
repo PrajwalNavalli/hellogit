@@ -56,10 +56,10 @@
         dest: /etc/systemd/system/tomcat.service
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
-    - name: copy the users xml
+    - name: copy the host manager app context file
       ansible.builtin.copy:
-        src: users.xml
-        dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
+        src: hostmanager-context.xml
+        dest: "{{ user_home }}/latest/webapps/host-manager/META-INF/context.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
 
