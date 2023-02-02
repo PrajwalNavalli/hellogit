@@ -33,5 +33,12 @@
       ansible.builtin.unarchive:
         src: https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.8/bin/apache-tomcat-10.0.8.tar.gz
         remote_src: yes
+        dest: "{{ user_home }"
+    - name: change permissions
+      ansible.builtin.file:
         dest: "{{ user_home }}"
+        recurse: true
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        state: directory
 
