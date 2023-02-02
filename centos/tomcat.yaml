@@ -9,7 +9,6 @@
     user_home: /opt/tomcat
     user_shell: /bin/false
     tomcat_version: "tomcat-9.0.27"
-    tomcat_major_version: "10"
     tomcat_service_name: tomcat.service
   tasks:
     - name: java installation
