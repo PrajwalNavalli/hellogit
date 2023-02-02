@@ -1,0 +1,171 @@
+---
+- name: installing tomcat on ubuntu and centos
+  hosts: all
+  become: yes
+  tasks:
+    - name: installing java on ubuntu
+      ansible.builtin.apt:
+        name: openjdk-11-jdk
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: installing java on centos
+      ansible.builtin.yum:
+        name: java-11-openjdk-devel
+        state: present
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: adding user for tomcat on ubuntu
+      ansible.builtin.user:
+        name: tomcat
+        home: /opt/tomcat
+        shell: /bin/false tomcat
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: adding user for tomcat on centos
+      ansible.builtin.user:
+        name: tomcat
+        home: /opt/tomcat
+        shell: /bin/false tomcat
+        state: present
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: downloading tomcat 10 on ubuntu
+      ansible.builtin.get_url:
+        url: https://downloads.apache.org/tomcat/tomcat-10/v10.0.27/bin/apache-tomcat-10.0.27.tar.gz
+        dest: /tmp
+        mode: "777"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: downloading tomacat 10 on centos
+      ansible.builtin.get_url:
+        url: https://downloads.apache.org/tomcat/tomcat-10/v10.0.27/bin/apache-tomcat-10.0.27.tar.gz
+        dest: /tmp
+        mode: "777"
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: extaring the tomcat file on ubuntu
+      ansible.builtin.unarchive:
+        src: /tmp/apache-tomcat-10.0.27.tar.gz
+        dest: /opt/tomcat
+        remote_src: yes
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: extaring the tomcat file on centos
+      ansible.builtin.unarchive:
+        src: /tmp/apache-tomcat-10.0.27.tar.gz
+        dest: /opt/tomcat
+        remote_src: yes
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: creating a symbolic link in ubuntu
+      ansible.builtin.file:
+        src: /opt/tomcat/apache-tomcat-10.0.27
+        dest: /opt/tomcat/latest
+        owner: tomcat
+        group: tomcat
+        state: link
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: creating a symbolic link in centos
+      ansible.builtin.file:
+        src: /opt/tomcat/apache-tomcat-10.0.27
+        dest: /opt/tomcat/latest
+        owner: tomcat
+        group: tomcat
+        state: link
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: change ownership directory on ubuntu
+      ansible.builtin.file:
+        path: /opt/tomcat
+        owner: tomcat
+        group: tomcat
+        mode: "777"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: change ownership directory on centos
+      ansible.builtin.file:
+        path: /opt/tomcat
+        owner: tomcat
+        group: tomcat
+        mode: "777"
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: chmod on ubuntu
+      ansible.builtin.command: "sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: chmod on centos
+      ansible.builtin.command: "sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'"
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: Create a systemd unit file on ubuntu
+      ansible.builtin.copy:
+        src: tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+        owner: tomcat
+        group: tomcat
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: Create a systemd unit file on centos
+      ansible.builtin.copy:
+        src: tomcat.service
+        dest: /etc/systemd/system/tomcat.service
+        owner: tomcat
+        group: tomcat
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: reload daemon and start tomcat on ubuntu
+      ansible.builtin.systemd:
+        name: tomcat.service
+        daemon_reload: yes
+    - name: reload daemon and start tomcat on ubuntu
+      ansible.builtin.systemd:
+        name: tomcat.service
+        daemon_reload: yes
+        enable: yes
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: reload daemon and start tomcat on centos
+      ansible.builtin.systemd:
+        name: tomcat.service
+        daemon_reload: yes
+        enable: yes
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: copy the users xml on ubuntu
+      ansible.builtin.copy:
+        src: tomcat-users.xml
+        dest: /opt/tomcat/latest/conf/tomcat-users.xml"
+        owner: tomcat
+        group: tomcat
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: copy the users xml on centos
+      ansible.builtin.copy:
+        src: tomcat-users.xml
+        dest: /opt/tomcat/latest/conf/tomcat-users.xml"
+        owner: tomcat
+        group: tomcat
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: copying manager app  context.xml on ubuntu
+      ansible.builtin.copy:
+        src: context.xml
+        dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+        owner: tomcat
+        group: tomcat
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: copying manager app  context.xml on centos
+      ansible.builtin.copy:
+        src: context.xml
+        dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+        owner: tomcat
+        group: tomcat
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: copying host manager app context.xml on ubuntu
+      ansible.builtin.copy:
+        src: hostmanager-context.xml
+        dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+        group: tomcat
+        owner: tomcat
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: copying host manager app context.xml on centos
+      ansible.builtin.copy:
+        src: hostmanager-context.xml
+        dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
+        group: tomcat
+        owner: tomcat
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: restart tomcat on ubuntu
+      ansible.builtin.systemd:
+        name: tomcat.service
+        state: restarted
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: restart tomcat on ubuntu
+      ansible.builtin.systemd:
+        name: tomcat.service
+        state: restarted
+      when: ansible_facts['distribution'] == "CentOS"
