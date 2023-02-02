@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   vars:
-    java_package_name: openjdk-11-jdk, openjdk-13-jdk,openjdk-17-jdk
+    java_package_name: java-11-openjdk-devel
     user_name: tomcat
     group_name: tomcat
     user_home: /opt/tomcat
@@ -13,7 +13,7 @@
     tomcat_service_name: tomcat.service
   tasks:
     - name: java installation
-      ansible.builtin.apt:
+      ansible.builtin.yum:
         name: "{{ java_package_name }}"
         update_cache: yes
         state: present
@@ -31,7 +31,7 @@
         state: present
     - name: extract tomcat
       ansible.builtin.unarchive:
-        src: https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.8/bin/apache-tomcat-10.0.8.tar.gz
+        src: https://downloads.apache.org/tomcat/tomcat-9/v9.0.34/bin/apache-tomcat-9.0.34.tar.gz
         remote_src: yes
         dest: "{{ user_home }}"
     - name: create a symbolic link

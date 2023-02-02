@@ -1,23 +1,17 @@
 ---
-- name: installation of .net core on centos
+- name: installation of .net core on ubuntu
   hosts: all
   become: yes
-  vars:
-    dotnet_package_name1: dotnet-sdk-7.0
   tasks:
     - name: download dotnet core
       ansible.builtin.get_url:
-        url: https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
-        dest: /tmp/packages-microsoft-prod.deb
+        url: https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
+        dest: /tmp/packages-microsoft-prod.rpm
     - name: download package
-      ansible.builtin.apt: deb=/tmp/packages-microsoft-prod.deb
-    - name: set https
-      ansible.builtin.apt:
-        name: apt-transport-https
-        update_cache: yes
-        state: present
+      ansible.builtin.yum: 
+        name: /tmp/packages-microsoft-prod.rpm
     - name: install dotnet core
-      ansible.builtin.apt:
-        name: "{{ dotnet_package_name1 }}"
+      ansible.builtin.yum:
+        name: dotnet-sdk-7.0
         update_cache: yes
         state: present

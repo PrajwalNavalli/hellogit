@@ -1,0 +1,10 @@
+---
+- name: Install nodejs on centos
+  hosts: all
+  become: yes
+  tasks:
+    - name: install nodejs
+      ansible.builtin.yum:
+        name: nodejs
+        update_cache: yes
+        state: present

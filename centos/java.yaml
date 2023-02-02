@@ -1,0 +1,10 @@
+---
+- name: Install Java on centos
+  hosts: all
+  become: yes
+  tasks:
+    - name: java installation
+      ansible.builtin.yum:
+        name: java-11-openjdk-devel
+        update_cache: yes
+        state: present
