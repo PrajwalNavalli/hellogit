@@ -36,12 +36,9 @@
         dest: "{{ user_home }}"
     - name: create a symbolic link
       ansible.builtin.file:
-        src: "{{ user_name }}/apache-tomcat-10.0.27"
-        dest: "{{ group_name }}/tomcat/latest"
-        owner: tomcat
-        group: tomcat
+        src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
+        dest: "{{ user_home }}/latest"
         state: link
-      when: ansible_facts['distribution'] == "Ubuntu"
     - name: change permissions
       ansible.builtin.file:
         dest: "{{ user_home }}"
