@@ -59,7 +59,7 @@
     - name: copy the users xml
       ansible.builtin.copy:
         src: users.xml
-        dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
+        dest: "{{ user_home }}/latest/conf/users.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
     - name: copy the host manager app context file
