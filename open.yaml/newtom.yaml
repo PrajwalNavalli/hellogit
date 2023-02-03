@@ -1,6 +1,6 @@
 ---
 - name: Install tomcat 10 on ubuntu 22
-  hosts: appservers
+  hosts: all
   become: yes
   tasks:
     - name: java installation
