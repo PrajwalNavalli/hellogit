@@ -3,7 +3,7 @@
   hosts: all
   become: yes
   vars:
-    java_package_name: openjdk-11-jdk, openjdk-13-jdk,openjdk-17-jdk
+    java_package_name: openjdk-11-jdk
     user_name: tomcat
     group_name: tomcat
     user_home: /opt/tomcat
