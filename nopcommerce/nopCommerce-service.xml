@@ -6,9 +6,9 @@ Description=NopCommerce eCommerce application
 
 [Service]
 
-WorkingDirectory=/var/www/shop.example.com/
+WorkingDirectory=/etc/systemd/system/nopCommerce.service
 
-ExecStart=/usr/bin/dotnet /var/www/shop.example.com/Nop.Web.dll
+ExecStart=/usr/bin/dotnet /etc/systemd/system/nopCommerce.service/Nop.Web.dll
 
 Restart=always
 

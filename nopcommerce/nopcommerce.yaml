@@ -40,7 +40,7 @@
         state: directory
     - name: create a nopcommerce service file
       ansible.builtin.file:
-        src: nopCommerce-service.xml
+        src: nopCommerce_service.xml
         path: /etc/systemd/system/nopCommerce.service
         state: link
     - name: start nopCommerce.service
