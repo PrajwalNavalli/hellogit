@@ -1,0 +1,50 @@
+---
+- name: Get nopCommerce on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: create a directory
+      ansible.builtin.file:
+        path: /var/www/nopCommerce
+        state: directory
+        mode: '0755'
+    - name: add group
+      ansible.builtin.group:
+        name: nopCommerce
+        state: present
+    - name: useradd
+      ansible.builtin.user:
+        name: nopCommerce
+        group: nopCommerce
+        state: present
+    - name: download the zip file
+      ansible.builtin.get_url:
+        url: "https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.1/nopCommerce_4.60.1_NoSource_linux_x64.zip"
+        dest: /var/www/nopCommerce
+    - name: install unzip
+      ansible.builtin.apt:
+        name: unzip
+        state: present
+    - name: Extract the zip file
+      ansible.builtin.unarchive:
+        src: /var/www/nopCommerce/nopCommerce_4.60.1_NoSource_linux_x64.zip
+        dest: /var/www/nopCommerce
+        remote_src: yes
+    - name: Create a directory
+      ansible.builtin.file:
+        path: /var/www/nopCommerce/bin
+        state: directory
+    - name: Create a directory
+      ansible.builtin.file:
+        path: /var/www/nopCommerce/logs
+        state: directory
+    - name: create a nopcommerce service file
+      ansible.builtin.file:
+        src: nopCommerce_service.xml
+        path: /etc/systemd/system/nopCommerce.service
+        state: link
+    - name: start nopCommerce.service
+      ansible.builtin.systemd:
+        name: nopCommerce.service
+        enabled: yes
+        state: started

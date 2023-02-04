@@ -1,0 +1,23 @@
+---
+- name: Install nginx on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: install nginx
+      ansible.builtin.apt:
+        name: nginx
+        update_cache: yes
+        state: present
+    - name: start nginx
+      ansible.builtin.systemd:
+        name: nginx.service
+        daemon_reload: yes
+        state: started
+    - name: remove default configuration file data
+      ansible.builtin.file:
+        path: /etc/nginx/sites-available/default
+        state: touch
+    - name: Add data on same default configuration file
+      ansible.builtin.file:
+        path: /etc/nginx/sites-available/default
+        state: touch

@@ -1,0 +1,10 @@
+---
+- name: Install mysql on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: install mysql
+      ansible.builtin.apt:
+        name: mysql-server
+        update_cache: yes
+        state: present
