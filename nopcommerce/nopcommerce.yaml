@@ -43,6 +43,7 @@
         src: nopCommerce_service.xml
         path: /etc/systemd/system/nopCommerce.service
         state: link
+        force: yes
     - name: start nopCommerce.service
       ansible.builtin.systemd:
         name: nopCommerce.service
