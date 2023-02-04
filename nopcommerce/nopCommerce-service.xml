@@ -1,0 +1,37 @@
+Unit]
+
+Description=NopCommerce eCommerce application
+
+
+
+[Service]
+
+WorkingDirectory=/var/www/shop.example.com/
+
+ExecStart=/usr/bin/dotnet /var/www/shop.example.com/Nop.Web.dll
+
+Restart=always
+
+
+
+# Auto restart nopCommerce in 10 seconds if .NET crashes
+
+
+
+RestartSec=10
+
+KillSignal=SIGINT
+
+SyslogIdentifier=nopcommerce
+
+User=www-data
+
+Environment=ASPNETCORE_ENVIRONMENT=Production
+
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+
+
+[Install]
+
+WantedBy=multi-user.target
