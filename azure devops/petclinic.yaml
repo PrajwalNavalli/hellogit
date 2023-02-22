@@ -1,0 +1,23 @@
+---
+- name: installing spring petclinic
+  hosts: all
+  become: yes
+  tasks:
+    - name: installing openjdk-17-jdk
+      ansible.builtin.apt:
+        name: openjdk-17-jdk
+        update_cache: yes
+        state: present
+    - name: download spc jar file
+      ansible.builtin.get_url:
+      url: 
+      dest: /tmp/spring-petclinic-3.0.0-SNAPSHOT.jar
+    - name: copy service file to systemd
+      ansible.builtin.copy:
+      src: service.spc
+      dest: /lib/systemd/system/service.spc
+    - name: run systemd
+      ansible.bultin.systemd:
+        name: service.spc
+        state: started
+      

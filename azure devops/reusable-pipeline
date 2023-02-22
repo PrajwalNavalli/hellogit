@@ -1,0 +1,19 @@
+---
+trigger:
+  - main
+
+pool:
+    name: 'default'
+    vmimage: ubuntu-20.04
+
+steps:
+  - task: UsedotNet@2
+    inputs:
+      packageType: 'sdk'
+      useGlobalJson: false
+      vsVersion: 
+      installationPath:
+      performMultiLevelLookup:
+      
+
+        

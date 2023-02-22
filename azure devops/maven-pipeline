@@ -1,0 +1,41 @@
+---
+parameters:
+  - name: goal
+    displayname: maven goal
+    type: string
+    default: 'package'
+    values:
+      - package
+      - clean
+      - install
+      - compile
+  - name: jdkversion
+    displayname: 'Java version'
+    type: string
+    default: '1.17'
+  - name: pomFilePath
+    displayName: mavenPOMFile
+    type: string
+    default: 'pom.xml'
+  - name: pathToPublish
+    displayName: Path To Publish
+    type: string 
+    default: 
+  - name: authenticateMavenFeed
+    type: boolean
+    default: false
+  
+steps:
+  - task: maven@3
+    inputs:
+      mavenPOMFile: "${{ parammeters.pomFilePath }}"
+      goals: "${{ parameters.goal }}"
+      publishJUnitResults: yes
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      jdkVersionOption: "${{ parameters.jdkVersion }}"
+      mavenAuthenticateFeed: ${{ parameters.authenticateMavenFeed }}
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: "${{ parameters.pathToPublish }}"
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
