@@ -1,0 +1,14 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-20.04
+  
+steps:
+ - script: 'docker compose -f local.yml run --rm django pytest --junitxml=/app/Test-pytest.xml'
+   displayName: pytest code coverage
+
+ - task: PublishTestResults@2
+   inputs:
+     testResultsFormat: 'JUnit'
+     testResultsFiles: '**/TEST-*.xml'

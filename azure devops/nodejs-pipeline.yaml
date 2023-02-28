@@ -1,0 +1,37 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+
+parameters:
+  - name: goal
+    displayName: Node.js goal
+    type: string
+    default: 'package'
+    values:
+      - package
+      - clean
+      - install
+      - compile
+  - name: jdkversion
+    displayName: 'Java version'
+    type: string
+    default: '1.17'
+  - name: pomFilePath
+    displayName: Install Node.js
+    type: string
+    default: 'pom.xml' 
+  
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSource: 'spec'
+      versionSpec: '6.x'
+      nodejsPOMFile: "${{ parameters.pomFilePath }}"
+      goals: "${{ parameters.goal }}"
+      publishJUnitResults: yes
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      jdkVersionOption: '1.17'
+

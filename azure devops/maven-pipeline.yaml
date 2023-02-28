@@ -1,0 +1,34 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+
+parameters:
+  - name: goal
+    displayName: maven goal
+    type: string
+    default: 'package'
+    values:
+      - package
+      - clean
+      - install
+      - compile
+  - name: jdkversion
+    displayName: 'Java version'
+    type: string
+    default: '1.17'
+  - name: pomFilePath
+    displayName: mavenPOMFile
+    type: string
+    default: 'pom.xml' 
+  
+steps:
+  - task: maven@3
+    inputs:
+      mavenPOMFile: "${{ parameters.pomFilePath }}"
+      goals: "${{ parameters.goal }}"
+      publishJUnitResults: yes
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      jdkVersionOption: '1.17'

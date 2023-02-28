@@ -1,0 +1,16 @@
+---
+pool:
+    name: default
+    vmImage: ubuntu-20.04
+
+trigger:
+  - main
+
+steps:
+  - task: DotNetCoreCLI
+    inputs:
+     command: 'build'
+  - task: NodeTool@0
+    inputs: 
+     versionSource: 'spec'
+     versionSpec: 16

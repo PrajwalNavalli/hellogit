@@ -15,6 +15,6 @@ trigger:
       testResultsFiles: '**/surefire-reports/TEST-*.xml'
       javaHomeOption: 'Path'
       jdkVersionOption: '1.17'
-      jdkDirectory: /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+      jdkDirectory: /usr/lib/jvm/java-17-openjdk-amd64
       mavenVersionOption: 'Path'
       mavenDirectory: /home/p/apache-maven-3.9.0
