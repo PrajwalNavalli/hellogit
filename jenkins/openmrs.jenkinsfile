@@ -1,16 +1,26 @@
 pipeline{
-    agent any
+    agent{
+        label "node"
+    }
     stages{
-        stage("vcs"){
+        stage("A"){
             steps{
-              git url: 'https://github.com/spring-projects/spring-petclinic.git',
-                  branch: 'main'
+                git url: ''
+                    branche: 'main'
+
                 }
             }
-            stage('build'){
-            steps{
-              sh './mvnw package'
-             
-            }
         }
-    }}
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
+}
