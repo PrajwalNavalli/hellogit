@@ -1,26 +1,16 @@
 pipeline{
-    agent{
-        label "node"
-    }
+    agent any
     stages{
-        stage("A"){
+        stage("git clone"){
             steps{
-                git url: ''
-                    branche: 'main'
-
+              git url: 'https://github.com/openmrs/openmrs-core.git',
+                  branch: 'master'
                 }
             }
+            stage('build'){
+            steps{
+              sh './mvn clean package'
+              sh './mvn jetty:run'
+            }
         }
-    }
-    post{
-        always{
-            echo "========always========"
-        }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline execution failed========"
-        }
-    }
-}
+    }}
