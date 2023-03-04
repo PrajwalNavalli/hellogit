@@ -1,0 +1,5 @@
+node('JDK_17'){
+    stage('version control'){
+        git url: ''
+    }
+}
