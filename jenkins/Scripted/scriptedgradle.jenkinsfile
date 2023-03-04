@@ -1,5 +1,18 @@
 node('JDK_17'){
-    stage('version control'){
-        git url: ''
+    stage('version control') {
+        git url: 'https://github.com/PrajwalNavalli/spring-petclinic.git',
+            branch: 'main'
+    }
+    stage('build the code') {
+        sh 'export PATH="/usr/lib/jvm/java-17-openjdk-amd64/bin:$PATH" && ./mvnw package'
+    }
+    stage('archive the artifacts') {
+        archiveArtifacts onlyIfSuccessful: true,
+            artifacts: '**/target/spring-petclinic-3.0.0-SNAPSHOT.jar',
+            allowEmptyArchive: false
+    }
+    stage('show the test result') {
+        junit testResults:'**/surefire-reports/TEST-*.xml',
+                allowEmptyResults: false
     }
 }
