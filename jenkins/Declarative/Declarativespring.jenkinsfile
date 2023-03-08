@@ -1,16 +1,16 @@
-pipeline{
-    agent any
-    stages{
-        stage("git clone"){
-            steps{
-              git url: 'https://github.com/spring-projects/spring-petclinic.git',
-                  branch: 'main'
-                }
-            }
-            stage('build'){
-            steps{
-              sh './mvnw package'
-             
-            }
-        }
-    }}
+pipeline {
+  agent any
+  stages {
+    stage("git clone") {
+      steps {
+        git url: 'https://github.com/spring-projects/spring-petclinic.git',
+            branch: 'main'
+      }
+    }
+  }
+  stage('build') {
+    stepd{
+      sh './mvnw package'
+    }
+  }
+}

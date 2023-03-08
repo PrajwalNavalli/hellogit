@@ -1,0 +1,10 @@
+pipeline{
+    agent any{
+        stage("vcs") {
+            steps {
+                git url:
+                    branch: main
+            }
+        }
+    }
+}
