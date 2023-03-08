@@ -16,7 +16,7 @@ pipeline {
             steps {
                 // performing sonarqube analysis with "withSonarQubeENV(<Name of Server configured in Jenkins>)"
                 withSonarQubeEnv('sonar') {
-                    sh './mvnw clean package sonar:sonar -Dsonar.organization=prajwalnavalli -Dsonar.projectKey=prajwalnavalli_prajwalproject'  
+                    sh './mvnw clean package sonar:sonar -Dsonar.organization=prajwalsn -Dsonar.projectKey=PrajwalSN_prajwalproject'  
                 }
             }
         }
