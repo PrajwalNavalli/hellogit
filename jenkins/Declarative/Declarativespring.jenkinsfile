@@ -9,7 +9,7 @@ pipeline {
     }
   }
   stage('build') {
-    stepd{
+    steps{
       sh './mvnw package'
     }
   }
