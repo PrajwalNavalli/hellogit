@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages{
-        stage("git clone"){
+        stage("vcs"){
             steps{
               git url: 'https://github.com/openmrs/openmrs-core.git',
                   branch: 'master'
