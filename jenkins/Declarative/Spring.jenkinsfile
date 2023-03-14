@@ -1,16 +1,16 @@
 pipeline {
-  agent any
+  agent {label 'JDK_17'}
   stages {
     stage("vcs") {
       steps {
-        git url: 'https://github.com/spring-projects/spring-petclinic.git',
+        git url: 'https://github.com/PrajwalNavalli/spring-petclinic.git',
             branch: 'main'
       }
     }
-  }
   stage('build') {
     steps{
       sh './mvnw package'
     }
   }
 } 
+}
